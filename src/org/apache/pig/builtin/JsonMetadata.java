@@ -275,7 +275,8 @@ public class JsonMetadata implements LoadMetadata, StoreMetadata {
     @Override
     public void storeStatistics(ResourceStatistics stats, String location, Job job) throws IOException {
         Configuration conf = job.getConfiguration();
-        DataStorage storage = new HDataStorage(ConfigurationUtil.toProperties(conf));
+        DataStorage storage = new HDataStorage(new Path(location).toUri(),
+                ConfigurationUtil.toProperties(conf));
         ElementDescriptor statFilePath = storage.asElement(location, statFileName);
         if(!statFilePath.exists() && stats != null) {
             try {
@@ -293,7 +294,8 @@ public class JsonMetadata implements LoadMetadata, StoreMetadata {
     @Override
     public void storeSchema(ResourceSchema schema, String location, Job job) throws IOException {
         Configuration conf = job.getConfiguration();
-        DataStorage storage = new HDataStorage(ConfigurationUtil.toProperties(conf));
+        DataStorage storage = new HDataStorage(new Path(location).toUri(),
+                ConfigurationUtil.toProperties(conf));
         ElementDescriptor schemaFilePath = storage.asElement(location, schemaFileName);
         if(!schemaFilePath.exists() && schema != null) {
             try {
